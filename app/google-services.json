@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "501312611998",
+    "firebase_url": "https://ligchatapp-43192.firebaseio.com",
+    "project_id": "ligchatapp-43192",
+    "storage_bucket": "ligchatapp-43192.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501312611998:android:e7010640d41092f1",
+        "android_client_info": {
+          "package_name": "com.example.zyraphyl.ligchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501312611998-o0e79410phnu9fi75filjg83ji5o5elv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zyraphyl.ligchatapp",
+            "certificate_hash": "56cd630e100e5d44f1eac939af035c3c39dc3ac5"
+          }
+        },
+        {
+          "client_id": "501312611998-bi6lfjfn2lli5pp4s408p16c4h9dirpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChfTpDo5qIuQGNtL0Q_IleMWW0wAh2PNE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501312611998-bi6lfjfn2lli5pp4s408p16c4h9dirpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
