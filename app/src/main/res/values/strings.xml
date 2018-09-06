@@ -3,6 +3,8 @@
     <string name="user_name">User name</string>
     <string name="Terms">By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use. Others will be able to find you by searching for your email address or phone number when provided</string>
     <string name="sign_up">Sign up</string>
+    <string name="sign_up_link"><u>Sign up</u></string>
     <string name="password">password</string>
     <string name="login">Login</string>
+    <string name="login_link"><u>Login</u></string>
 </resources>

@@ -26,19 +26,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent loadDash = new Intent(this,Dashboard.class);
-        startActivity(loadDash);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null){
+            Intent loadDash = new Intent(this,Dashboard.class);
+            startActivity(loadDash);
+        }else{
+            displayChatMessages();
+        }
 
-        //Initialize Layouts
-        LayoutElements();
+
     }
-    private void LayoutElements(){
-        Typeface arial = Typeface.createFromAsset(getAssets(), "fonts/arial.ttf");
-        login = (Button) findViewById(R.id.loginButtonMain);
-        login.setTypeface(arial);
-        signup = (Button) findViewById(R.id.signUpButtonMain);
-        signup.setTypeface(arial);
-        appName = (TextView) findViewById(R.id.appName);
-        appName.setTypeface(arial);
+    private void displayChatMessages(){
+
     }
+
 }
