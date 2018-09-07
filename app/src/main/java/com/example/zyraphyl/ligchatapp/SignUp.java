@@ -24,6 +24,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        mFirebaseAuth = FirebaseAuth.getInstance();
         LayoutElements();
 
     }
@@ -47,7 +48,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-//                        reload signup page or login page
                         Intent signInIntent = new Intent(SignUp.this,LogIn.class);
                         startActivity(signInIntent);
                     }

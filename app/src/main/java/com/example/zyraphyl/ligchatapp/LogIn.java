@@ -2,6 +2,7 @@ package com.example.zyraphyl.ligchatapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
     private Button login_button;
     private EditText username_editText,password_editText;
     private FirebaseAuth mFirebaseAuth;
+    private TextInputLayout usernameWrapper,passwordWrapper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
         signup_link.setOnClickListener(this);
         username_editText = (EditText) findViewById(R.id.username);
         password_editText = (EditText) findViewById(R.id.password);
+        usernameWrapper = (TextInputLayout) findViewById(R.id.usernameWrapper);
+        passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
     }
     @Override
     public void onClick(View v) {
@@ -54,7 +58,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
 
         if(username.isEmpty() || password.isEmpty()|| (username.length()>16 && username.length()<8)
                 || (password.length()>16 && password.length()<8)){
-            //show error view
+            usernameWrapper.setError("Value is incorrect");
+            passwordWrapper.setError("Value is incorrect");
         }else{
             (mFirebaseAuth.signInWithEmailAndPassword(username.concat("@ligChatApp.com"),password)).
                     addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -64,7 +69,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
                                 Intent login = new Intent(LogIn.this,MessageBoard.class);
                                 startActivity(login);
                             }else{
-                                //show error page
+                                usernameWrapper.setError("Value is incorrect");
+                                passwordWrapper.setError("Value is incorrect");
                             }
                         }
                     });

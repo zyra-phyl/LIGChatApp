@@ -32,13 +32,10 @@ public class MainActivity extends AppCompatActivity {
             Intent loadDash = new Intent(this,Dashboard.class);
             startActivity(loadDash);
         }else{
-            displayChatMessages();
+            Intent loadMessages = new Intent(this,MessageBoard.class);
+            startActivity(loadMessages);
         }
 
 
     }
-    private void displayChatMessages(){
-
-    }
-
 }
