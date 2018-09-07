@@ -71,4 +71,8 @@ public class MessageBoard extends AppCompatActivity implements View.OnClickListe
         };
         listOfMessages.setAdapter(chatAdapter);
     }
+    public void onBackPressed() {
+        moveTaskToBack(true);
+
+    }
 }

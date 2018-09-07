@@ -76,5 +76,8 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
                     });
         }
     }
+    public void onBackPressed() {
+        moveTaskToBack(true);
 
+    }
 }
