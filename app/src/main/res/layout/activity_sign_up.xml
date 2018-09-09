@@ -5,55 +5,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SignUp">
+    tools:context=".SignUp"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
-
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:inputType="text"
             android:hint="@string/user_name"
             android:padding="10dp"
-            android:background="@drawable/custom_input_field"/>
+            android:background="@drawable/custom_input_field"
+            android:textSize="16sp"/>
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:inputType="textPassword"
             android:padding="10dp"
             android:hint="password"
+            android:textSize="16sp"
             android:background="@drawable/custom_input_field"/>
         <Button
-            android:id="@+id/signup_button"
+            android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="@string/sign_up"
             android:gravity="center"
             android:layout_marginBottom="10dp"
+            android:textSize="16sp"
             android:background="@drawable/custom_button"/>
         <TextView
-            android:id="@+id/login_link"
+            android:id="@+id/signup_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_link"
             android:textColor="@color/colorAccent"
             android:layout_marginBottom="10dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textSize="13sp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingRight="20dp"
             android:text="@string/Terms"
+            android:textSize="13sp"
             android:textColor="@color/colorAccent"/>
 
     </LinearLayout>

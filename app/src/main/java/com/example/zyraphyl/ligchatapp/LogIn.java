@@ -66,7 +66,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Intent login = new Intent(LogIn.this,MessageBoard.class);
+                                Intent login = new Intent(LogIn.this,MainActivity.class);
                                 startActivity(login);
                             }else{
                                 usernameWrapper.setError("Value is incorrect");
