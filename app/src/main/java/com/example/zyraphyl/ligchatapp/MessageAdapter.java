@@ -21,7 +21,7 @@ public class MessageAdapter extends FirebaseListAdapter<ChatMessage> {
     protected void populateView(View v, ChatMessage model, int position) {
        TextView messageView = (TextView) v.findViewById(R.id.message_text);
        TextView userView = (TextView) v.findViewById(R.id.message_user);
-       if (getItemViewType(position)==2){
+       if (activity.getUsername().equals(model.getUser())){
            userView.setText("You");
        }else{
            userView.setText(model.getUser());
