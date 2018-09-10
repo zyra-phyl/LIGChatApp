@@ -19,13 +19,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         Functionality();
     }
     private void LayoutElements(){
-        Typeface arial = Typeface.createFromAsset(getAssets(), "fonts/arial.ttf");
         login = (Button) findViewById(R.id.loginButtonMain);
-        login.setTypeface(arial);
         signup = (Button) findViewById(R.id.signUpButtonMain);
-        signup.setTypeface(arial);
         appName = (TextView) findViewById(R.id.appName);
-        appName.setTypeface(arial);
     }
     public void Functionality(){
         login.setOnClickListener(this);
@@ -38,10 +34,12 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             case R.id.loginButtonMain:
                 Intent login = new Intent(this,LogIn.class);
                 startActivity(login);
+                finish();
                 break;
             case R.id.signUpButtonMain:
                 Intent signup = new Intent(this,SignUp.class);
                 startActivity(signup);
+                finish();
                 break;
         }
     }

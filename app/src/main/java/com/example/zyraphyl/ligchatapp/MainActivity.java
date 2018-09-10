@@ -1,8 +1,12 @@
 package com.example.zyraphyl.ligchatapp;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,23 +17,27 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
-import com.google.android.gms.signin.SignIn;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
+import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     // Firebase instance variables
+    final String TAG = "Main Activity";
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private FirebaseListOptions<ChatMessage> chatOptions;
-    private FirebaseDatabase database;
+    private FirebaseListOptions<ChatMessage> chatOption;
+    private DatabaseReference database;
     private FirebaseListAdapter<ChatMessage> chatAdapter;
     private Query query;
-    private Button send;
+    private Button send,logout;
     private EditText inputMessage;
     private TextView messageView,userView;
     private ListView listOfMessages;
@@ -43,63 +51,91 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        username = mFirebaseUser.getDisplayName();
+        database = FirebaseDatabase.getInstance().getReference();
+        Calligrapher calligrapher = new Calligrapher(this);
+        calligrapher.setFont(this,"fonts/arial.ttf",true);
+        LayoutElements();
+        displayMessages();
         if (mFirebaseUser == null){
             Intent loadDash = new Intent(this,Dashboard.class);
             startActivity(loadDash);
         }else{
-            displayMessages();
+            username = mFirebaseUser.getEmail().replace("@ligchatapp.com","");
+
+            database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    listOfMessages.setSelection(chatAdapter.getCount() - 1);
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
         }
+
     }
     private void LayoutElements(){
         send = (Button) findViewById(R.id.sendButton);
         send.setOnClickListener(this);
         inputMessage = (EditText) findViewById(R.id.message);
         messageView = (TextView) findViewById(R.id.message_text);
-        userView = (TextView) findViewById(R.id.message_user);
         listOfMessages = (ListView) findViewById(R.id.list_of_messages);
-    }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        mFirebaseAuth.signOut();
-        mFirebaseUser = null;
-        startActivity(new Intent(this, Dashboard.class));
-        finish();
-        return true;
+        listOfMessages.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+        logout = (Button) findViewById(R.id.logout_button);
+        logout.setVisibility(View.VISIBLE);
+        logout.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.send:
+            case R.id.sendButton:
                 SendMessage();
+                break;
+            case R.id.logout_button:
+                mFirebaseAuth.signOut();
+                mFirebaseUser = null;
+                startActivity(new Intent(this, Dashboard.class));
+                finish();
                 break;
         }
     }
     private void SendMessage(){
         message = inputMessage.getText().toString();
-        database.getReference().push()
-                .setValue(new ChatMessage(message, FirebaseAuth.getInstance()
-                        .getCurrentUser()
-                        .getDisplayName()));
+
+        database.push()
+                .setValue(new ChatMessage(message, username,mFirebaseUser.getUid()));
         inputMessage.setText("");
     }
     private void displayMessages(){
-        database = FirebaseDatabase.getInstance();
-        query = database.getReference().child("message").limitToLast(50);
-        chatOptions = new FirebaseListOptions.Builder<ChatMessage>().setQuery(query,ChatMessage.class).setLayout(R.layout.message).build();
-        chatAdapter = new FirebaseListAdapter<ChatMessage>(chatOptions) {
-
-            @Override
-            protected void populateView(View v, ChatMessage model, int position) {
-                messageView.setText(model.getMessage());
-                userView.setText(model.getUser());
-            }
-        };
+        query = database.limitToLast(50);
+        chatOption = new FirebaseListOptions.Builder<ChatMessage>().setQuery(query,ChatMessage.class).setLayout(R.layout.outbound_message).build();
+        chatAdapter = new MessageAdapter(this,chatOption);
         listOfMessages.setAdapter(chatAdapter);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        chatAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        chatAdapter.stopListening();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
     public void onBackPressed() {
         moveTaskToBack(true);
 
