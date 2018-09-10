@@ -67,6 +67,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         if(username.isEmpty() || (username.length()>16 && username.length()<8)){
             errorName.setVisibility(View.VISIBLE);
             errorPassword.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
         }else if (!(username.isEmpty() || (username.length()>16 && username.length()<8))){
             (mFirebaseAuth.createUserWithEmailAndPassword(username.concat("@ligChatApp.com"),password)).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override

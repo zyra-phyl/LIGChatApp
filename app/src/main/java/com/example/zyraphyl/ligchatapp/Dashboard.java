@@ -15,15 +15,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        //initialize layout elements
         LayoutElements();
-        Functionality();
     }
     private void LayoutElements(){
-        login = (Button) findViewById(R.id.loginButtonMain);
-        signup = (Button) findViewById(R.id.signUpButtonMain);
-        appName = (TextView) findViewById(R.id.appName);
-    }
-    public void Functionality(){
+        login = findViewById(R.id.loginButtonMain);
+        signup = findViewById(R.id.signUpButtonMain);
+        appName = findViewById(R.id.appName);
         login.setOnClickListener(this);
         signup.setOnClickListener(this);
     }

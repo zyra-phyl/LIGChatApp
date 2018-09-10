@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +26,6 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     // Firebase instance variables
-    final String TAG = "Main Activity";
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private FirebaseListOptions<ChatMessage> chatOption;
@@ -80,15 +75,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     private void LayoutElements(){
-        send = (Button) findViewById(R.id.sendButton);
+        send = findViewById(R.id.sendButton);
         send.setOnClickListener(this);
-        inputMessage = (EditText) findViewById(R.id.message);
-        messageView = (TextView) findViewById(R.id.message_text);
-        listOfMessages = (ListView) findViewById(R.id.list_of_messages);
+        inputMessage = findViewById(R.id.message);
+        messageView = findViewById(R.id.message_text);
+        listOfMessages = findViewById(R.id.list_of_messages);
         listOfMessages.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        //set custom action bar
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_actionbar);
-        logout = (Button) findViewById(R.id.logout_button);
+        logout = findViewById(R.id.logout_button);
         logout.setVisibility(View.VISIBLE);
         logout.setOnClickListener(this);
     }
@@ -101,29 +97,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.logout_button:
                 mFirebaseAuth.signOut();
                 mFirebaseUser = null;
-                startActivity(new Intent(this, Dashboard.class));
+                startActivity(new Intent(this, SignUp.class));
                 finish();
                 break;
         }
     }
     private void SendMessage(){
         message = inputMessage.getText().toString();
-
+        //push messsage to firebase database
         database.push()
                 .setValue(new ChatMessage(message, username,mFirebaseUser.getUid()));
         inputMessage.setText("");
     }
     private void displayMessages(){
-        query = database.limitToLast(50);
-        chatOption = new FirebaseListOptions.Builder<ChatMessage>().setQuery(query,ChatMessage.class).setLayout(R.layout.outbound_message).build();
-        chatAdapter = new MessageAdapter(this,chatOption);
-        listOfMessages.setAdapter(chatAdapter);
+        if(database != null) {
+            query = database.limitToLast(50);
+            chatOption = new FirebaseListOptions.Builder<ChatMessage>().setQuery(query, ChatMessage.class).setLayout(R.layout.outbound_message).build();
+            //create MessageAdapter to handle the change of layout for chat bubble
+            chatAdapter = new MessageAdapter(this, chatOption);
+            listOfMessages.setAdapter(chatAdapter);
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        chatAdapter.startListening();
+        if(database != null){
+            chatAdapter.startListening();
+        }
+
     }
 
     @Override
